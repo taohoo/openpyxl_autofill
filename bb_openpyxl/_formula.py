@@ -8,25 +8,25 @@
 """
 import re
 from openpyxl.utils import column_index_from_string, get_column_letter
-from ._utils import duplicate
+from ._utils import _duplicate
 
 
 def _get_all_cells(formula):
     """提取公式中的单元格"""
     cell_pattern = "[^A-Z0-9]([A-Z]+[0-9]+)"
-    return duplicate(re.findall(cell_pattern, formula))
+    return _duplicate(re.findall(cell_pattern, formula))
 
 
 def _get_all_rows(formula):
     """提取公式中的行"""
     row_pattern = r"\$(\d+)"
-    return duplicate(re.findall(row_pattern, formula))
+    return _duplicate(re.findall(row_pattern, formula))
 
 
 def _get_all_columns(formula):
     """提取公式中的列"""
     column_pattern = r"\$([A-Z]+)"
-    return duplicate(re.findall(column_pattern, formula))
+    return _duplicate(re.findall(column_pattern, formula))
 
 
 def _calculate_new_cell(cell, row_idx=None, col_idx=None, amount=1):

@@ -1,4 +1,5 @@
-def duplicate(l):
+
+def _duplicate(l):
     """
     list去重
     :param l:
