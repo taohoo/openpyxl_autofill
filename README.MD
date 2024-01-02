@@ -1,3 +1,7 @@
+# 从pip安装
+```
+pip install bb_openpyxl
+```
 # 针对openpyxl的各种扩展操作
 ## sort
 对给定范围的单元格进行排序
