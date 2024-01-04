@@ -9,26 +9,8 @@
 import re
 from openpyxl.utils import column_index_from_string, get_column_letter
 
-from ._calculate_range import _calculate_new_col_string, _calculate_new_row_string
-from ._utils import _duplicate
-
-
-def _get_all_cells(formula):
-    """提取公式中的单元格"""
-    cell_pattern = "[^A-Z0-9]([A-Z]+[0-9]+)"
-    return _duplicate(re.findall(cell_pattern, formula))
-
-
-def _get_all_rows(formula):
-    """提取公式中的行"""
-    row_pattern = r"\$(\d+)"
-    return _duplicate(re.findall(row_pattern, formula))
-
-
-def _get_all_columns(formula):
-    """提取公式中的列"""
-    column_pattern = r"\$([A-Z]+)"
-    return _duplicate(re.findall(column_pattern, formula))
+from ._range import _new_col_string, _new_row_string, _get_all_cells, _get_all_rows, \
+    _get_all_columns
 
 
 def _calculate_new_cell(cell, row_idx=None, col_idx=None, amount=1):
@@ -63,7 +45,7 @@ def _reset_cols_in_formula(formula, cols, current_col=None, idx=None, amount=1):
         current_col = cols.pop(0)
     if not current_col:
         return new_formula
-    new_col = _calculate_new_col_string(current_col, idx, amount=amount)
+    new_col = _new_col_string(current_col, idx, amount=amount)
     if new_col != current_col:
         if new_col in cols:
             # 要把new_cell处理掉
@@ -79,7 +61,7 @@ def _reset_rows_in_formula(formula, rows, current_row=None, idx=None, amount=1):
         current_row = rows.pop(0)
     if not current_row:
         return new_formula
-    new_row = _calculate_new_row_string(current_row, idx, amount=amount)
+    new_row = _new_row_string(current_row, idx, amount=amount)
     if new_row != current_row:
         if new_row in rows:
             # 要把new_cell处理掉

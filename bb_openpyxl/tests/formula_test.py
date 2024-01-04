@@ -6,7 +6,8 @@
 @time: 2023/12/23 14:07
 @desc:
 """
-from .._formula import _get_all_cells, _get_all_rows, _get_all_columns, _reset_formula
+from .._formula import _reset_formula
+from .._range import _get_all_cells, _get_all_rows, _get_all_columns
 
 
 def test_get():
