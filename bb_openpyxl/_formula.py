@@ -8,6 +8,8 @@
 """
 import re
 from openpyxl.utils import column_index_from_string, get_column_letter
+
+from ._calculate_range import _calculate_new_col_string, _calculate_new_row_string
 from ._utils import _duplicate
 
 
@@ -55,19 +57,13 @@ def _reset_cells_in_formula(formula, cells, current_cell=None, row_idx=None, col
     return _reset_cells_in_formula(new_formula, cells, row_idx=row_idx, col_idx=col_idx, amount=amount)
 
 
-def _calculate_new_col(col, idx, amount=1):
-    current = column_index_from_string(col)
-    if idx <= current:
-        return get_column_letter(current + amount)
-    return col
-
 def _reset_cols_in_formula(formula, cols, current_col=None, idx=None, amount=1):
     new_formula = formula
     if current_col is None and len(cols) > 0:
         current_col = cols.pop(0)
     if not current_col:
         return new_formula
-    new_col = _calculate_new_col(current_col, idx, amount=amount)
+    new_col = _calculate_new_col_string(current_col, idx, amount=amount)
     if new_col != current_col:
         if new_col in cols:
             # 要把new_cell处理掉
@@ -77,20 +73,13 @@ def _reset_cols_in_formula(formula, cols, current_col=None, idx=None, amount=1):
     return _reset_cols_in_formula(new_formula, cols, idx=idx, amount=amount)
 
 
-def _calculate_new_row(row, idx, amount=1):
-    current = int(row)
-    if idx <= current:
-        return str(current + amount)
-    return row
-
-
 def _reset_rows_in_formula(formula, rows, current_row=None, idx=None, amount=1):
     new_formula = formula
     if current_row is None and len(rows) > 0:
         current_row = rows.pop(0)
     if not current_row:
         return new_formula
-    new_row = _calculate_new_row(current_row, idx, amount=amount)
+    new_row = _calculate_new_row_string(current_row, idx, amount=amount)
     if new_row != current_row:
         if new_row in rows:
             # 要把new_cell处理掉

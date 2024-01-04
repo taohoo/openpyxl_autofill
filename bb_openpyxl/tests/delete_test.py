@@ -7,22 +7,21 @@
 @desc:
 """
 from openpyxl import load_workbook
-from ..delete import delete_rows, delete_cols
+from .. import patch_all
+patch_all()
 
 
 def test_delete_cols():
     wb = load_workbook('bb_openpyxl/tests/test.xlsx')
     ws = wb.worksheets[0]
-    delete_cols(ws, 2, amount=2)
-    # delete_cols(ws, 5, amount=1)
+    ws.delete_cols(2, amount=2)
     wb.save('bb_openpyxl/tests/out.xlsx')
 
 
 def test_delete_rows():
     wb = load_workbook('bb_openpyxl/tests/test.xlsx')
     ws = wb.worksheets[0]
-    # insert_rows(ws, 6)
-    delete_rows(ws, 4)
+    ws.delete_rows(4)
     wb.save('bb_openpyxl/tests/out.xlsx')
 
 

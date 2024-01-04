@@ -20,7 +20,7 @@
 """
 from ._insert import (_un_merge_cells_before_insert, _re_merge_cells_when_after_insert,
                       _get_all_columns_width, _get_all_rows_height, _reset_all_columns_width, _reset_all_rows_height,
-                      _re_set_all_formulas, _warning_unsupported_formula)
+                      _re_set_all_formulas, _warning_unsupported_formula, _re_set_tables)
 
 
 def insert_rows(worksheet, idx, amount=1):
@@ -31,16 +31,21 @@ def insert_rows(worksheet, idx, amount=1):
     :param amount:同Worksheet.insert_rows
     :return:
     """
+    if not hasattr(worksheet, 'bb_patched'):
+        # 未打补丁，直接调用的本方法
+        worksheet.insert_rows_ = worksheet.insert_rows
+        worksheet.delete_rows_ = worksheet.delete_rows
     unmerged_ranges = _un_merge_cells_before_insert(worksheet, row_idx=idx, amount=amount)
     heights = _get_all_rows_height(worksheet)
     if amount > 0:
-        worksheet.insert_rows(idx, amount=amount)
+        worksheet.insert_rows_(idx, amount=amount)
     else:
-        worksheet.delete_rows(idx, amount=-amount)
+        worksheet.delete_rows_(idx, amount=-amount)
     _re_set_all_formulas(worksheet, row_idx=idx, amount=amount)
     _warning_unsupported_formula(worksheet.parent)
     _reset_all_rows_height(worksheet, heights, idx, amount=amount)
     _re_merge_cells_when_after_insert(worksheet, unmerged_ranges, row_idx=idx, amount=amount)
+    _re_set_tables(worksheet, row_idx=idx, amount=amount)
 
 
 def insert_cols(worksheet, idx, amount=1):
@@ -51,13 +56,17 @@ def insert_cols(worksheet, idx, amount=1):
     :param amount:同Worksheet.insert_rows
     :return:
     """
+    if not hasattr(worksheet, 'bb_patched'):
+        worksheet.insert_cols_ = worksheet.insert_cols
+        worksheet.delete_cols_ = worksheet.delete_cols
     unmerged_ranges = _un_merge_cells_before_insert(worksheet, col_idx=idx, amount=amount)
     widths = _get_all_columns_width(worksheet)
     if amount > 0:  # 插入列
-        worksheet.insert_cols(idx, amount=amount)
+        worksheet.insert_cols_(idx, amount=amount)
     else:   # 删除列
-        worksheet.delete_cols(idx, amount=-amount)
+        worksheet.delete_cols_(idx, amount=-amount)
     _re_set_all_formulas(worksheet, col_idx=idx, amount=amount)
     _warning_unsupported_formula(worksheet.parent)
     _reset_all_columns_width(worksheet, widths, idx, amount=amount)
     _re_merge_cells_when_after_insert(worksheet, unmerged_ranges, col_idx=idx, amount=amount)
+    _re_set_tables(worksheet, col_idx=idx, amount=amount)

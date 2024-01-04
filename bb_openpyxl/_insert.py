@@ -9,8 +9,9 @@
 import copy
 import warnings
 from openpyxl.utils import get_column_letter
-from openpyxl.workbook.defined_name import DefinedName
+from openpyxl.worksheet.table import Table
 
+from ._calculate_range import _calculate_new_range
 from ._formula import _reset_formula
 
 
@@ -67,10 +68,9 @@ def _re_merge_cells_when_after_insert(ws, unmerged_ranges, row_idx=None, col_idx
     """在插入列时，重新计算合并的单元格"""
     for merged_range in unmerged_ranges:
         start_column, start_row, end_column, end_row = merged_range.bounds
-        new_start_column = start_column + amount if col_idx is not None and col_idx <= start_column else start_column
-        new_end_column = end_column + amount if col_idx is not None else end_column
-        new_start_row = start_row + amount if row_idx and row_idx <= start_row is not None else start_row
-        new_end_row = end_row + amount if row_idx is not None else end_row
+        new_end_column, new_end_row, new_start_column, new_start_row = _calculate_new_range(start_row, start_column,
+                                                                                            end_row, end_column, row_idx,
+                                                                                            col_idx, amount)
         # 判断是否还有merge的必要
         if ((new_end_column > new_start_column or new_end_row > new_start_row)
                 and new_end_column >= new_start_column and new_end_row >= new_start_row):
@@ -110,3 +110,26 @@ def _warning_unsupported_formula(wb):
                     if cell.value.find('!') >= 0:
                         warnings.warn('文件存在跨sheet页引用数据的公式。增删行或者列的操作，可能导致公式失效。建议通过定义名称规避此问题')
                         break
+
+
+def _re_set_tables(ws, row_idx=None, col_idx=None, amount=1):
+    tables = []
+    for table in ws.tables.values():
+        tab = Table(displayName=table.displayName)
+        for attribute_name in dir(table):
+            if (attribute_name in
+                    ('ref', 'name', 'comment', 'tableType', 'headerRowCount', 'insertRow',
+                     'insertRowShift', 'totalsRowCount', 'totalsRowShown', 'published', 'headerRowDxfId',
+                     'dataDxfId', 'totalsRowDxfId', 'headerRowBorderDxfId', 'tableBorderDxfId',
+                     'totalsRowBorderDxfId', 'headerRowCellStyle', 'dataCellStyle', 'totalsRowCellStyle',
+                     'connectionId', 'autoFilter', 'sortState')):
+                setattr(tab, attribute_name, copy.copy(getattr(table, attribute_name)))
+        tab.tableStyleInfo = copy.copy(table.tableStyleInfo)
+        tables.append(tab)
+    ws.tables.clear()
+    for table in tables:
+        new_ref = _reset_formula(table.ref, row_idx=row_idx, col_idx=col_idx, amount=amount)
+        # 如果新增了列，要增加新标题，否则会报错
+        if new_ref != table.ref:
+            table.ref = new_ref
+        ws.add_table(table)
