@@ -68,9 +68,8 @@ def _re_merge_cells_when_after_insert(ws, unmerged_ranges, row_idx=None, col_idx
     """在插入列时，重新计算合并的单元格"""
     for merged_range in unmerged_ranges:
         start_column, start_row, end_column, end_row = merged_range.bounds
-        new_end_column, new_end_row, new_start_column, new_start_row = _new_range(start_row, start_column,
-                                                                                  end_row, end_column, row_idx,
-                                                                                  col_idx, amount)
+        new_start_column, new_start_row, new_end_column, new_end_row = _new_range(start_column, start_row, end_column,
+                                                                                  end_row, row_idx, col_idx, amount)
         # 判断是否还有merge的必要
         if ((new_end_column > new_start_column or new_end_row > new_start_row)
                 and new_end_column >= new_start_column and new_end_row >= new_start_row):
