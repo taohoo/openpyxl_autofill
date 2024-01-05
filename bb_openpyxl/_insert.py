@@ -18,7 +18,7 @@ from ._formula import _reset_formula
 def _get_all_columns_width(ws):
     """在插入或者删除列之前获取列宽"""
     widths = []
-    for c in range(1, ws.max_column):
+    for c in range(1, ws.max_column+1):
         widths.append(ws.column_dimensions[get_column_letter(c)].width)
     return widths
 
@@ -26,17 +26,17 @@ def _get_all_columns_width(ws):
 def _reset_all_columns_width(ws, widths, idx, amount=1):
     """在插入或者删除列之后重新设置列宽"""
     if amount > 0:  # 插入列
-        for c in range(idx+amount, ws.max_column):
+        for c in range(idx+amount, ws.max_column+1):
             ws.column_dimensions[get_column_letter(c)].width = widths[c - amount - 1]
     else:   # 删除列
-        for c in range(idx, ws.max_column):
+        for c in range(idx, ws.max_column+1):
             ws.column_dimensions[get_column_letter(c)].width = widths[c - amount - 1]
 
 
 def _get_all_rows_height(ws):
     """在插入或者删除行之前获取行高"""
     heights = []
-    for r in range(1, ws.max_row):
+    for r in range(1, ws.max_row+1):
         heights.append(ws.row_dimensions[r].height)
     return heights
 
@@ -44,10 +44,10 @@ def _get_all_rows_height(ws):
 def _reset_all_rows_height(ws, heights, idx, amount=1):
     """在插入或者删除列之后重新设置列宽"""
     if amount > 0:
-        for r in range(idx+amount, ws.max_row):
+        for r in range(idx+amount, ws.max_row+1):
             ws.row_dimensions[r].height = heights[r - amount - 1]
     else:
-        for r in range(idx, ws.max_column):
+        for r in range(idx, ws.max_column+1):
             ws.row_dimensions[r].height = heights[r - amount - 1]
 
 

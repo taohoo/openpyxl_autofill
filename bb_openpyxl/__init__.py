@@ -14,16 +14,16 @@ from .sort import sort
 
 
 def patch_all():
-    Worksheet.bb_patched = True
-    # rename original methods
-    Worksheet.insert_rows_ = Worksheet.insert_rows
-    Worksheet.insert_cols_ = Worksheet.insert_cols
-    Worksheet.delete_rows_ = Worksheet.delete_rows
-    Worksheet.delete_cols_ = Worksheet.delete_cols
-    # repalce methods
-    Worksheet.insert_rows = insert_rows
-    Worksheet.insert_cols = insert_cols
-    Worksheet.delete_rows = delete_rows
-    Worksheet.delete_cols = delete_cols
-    Worksheet.sort = sort
-
+    if not hasattr(Worksheet, 'bb_patched'):
+        Worksheet.bb_patched = True
+        # rename original methods
+        Worksheet.insert_rows_ = Worksheet.insert_rows
+        Worksheet.insert_cols_ = Worksheet.insert_cols
+        Worksheet.delete_rows_ = Worksheet.delete_rows
+        Worksheet.delete_cols_ = Worksheet.delete_cols
+        # repalce methods
+        Worksheet.insert_rows = insert_rows
+        Worksheet.insert_cols = insert_cols
+        Worksheet.delete_rows = delete_rows
+        Worksheet.delete_cols = delete_cols
+        Worksheet.sort = sort

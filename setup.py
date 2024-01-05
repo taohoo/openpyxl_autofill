@@ -6,7 +6,7 @@ with open('README.MD', 'r', encoding='utf-8') as f:
 
 setup(
     name='bb_openpyxl',
-    version='0.2.0',
+    version='0.2.2',
     description='针对openpyxl的功能扩展',
     long_description=long_description,
     long_description_content_type='text/markdown',

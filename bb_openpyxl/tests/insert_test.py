@@ -6,7 +6,7 @@
 @time: 2023/12/22 14:15
 @desc:
 """
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
 from .. import patch_all
 patch_all()
 
