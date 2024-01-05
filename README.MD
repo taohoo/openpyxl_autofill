@@ -4,14 +4,19 @@ pip install bb_openpyxl
 ```
 # Usage
 ```
+from openpyxl import load_workbook
 import bb_openpyxl
 bb_openpyxl.patch_all()
+wb = load_workbook(...)
+ws = wb.active
+ws.insert_rows(...)
+...
 ```
-# Various extensions for openpyxl
+# Extensions for openpyxl
 ## sort
 Sorts the cells within the given range.
 ## insert
-Contains insert_rows and insert_cols. When inserting rows and columns, it preserves the original formulas and keeps the data consistent for merged cells.
+Insert rows and insert cols. Auto adjust merged cells, formulas and tables.
 ## delete
-Contains delete_rows and delete_cols. When deleting rows and columns, it preserves the original formulas and keeps the data consistent for merged cells.
+Delete rows and delete cols. Auto adjust merged cells, formulas and tables.
 

@@ -12,7 +12,7 @@ from .insert import insert_rows, insert_cols
 def delete_rows(worksheet, idx, amount=1):
     """
     Delete rows from a worksheet.
-
+    Auto adjust merged cells, formulas and tables.
     Args:
         worksheet (Worksheet): The worksheet from which to delete rows.
         idx (int): The index of the first row to delete.
@@ -25,4 +25,15 @@ def delete_rows(worksheet, idx, amount=1):
 
 
 def delete_cols(worksheet, idx, amount=1):
+    """
+    Delete a specified number of columns starting from a given index in a worksheet.
+    Auto adjust merged cells, formulas and tables.
+    Parameters:
+        worksheet (Worksheet): The worksheet to delete columns from.
+        idx (int): The index of the column to start deleting from.
+        amount (int, optional): The number of columns to delete. Defaults to 1.
+
+    Returns:
+        Worksheet: The modified worksheet after deleting the columns.
+    """
     return insert_cols(worksheet, idx, amount=-amount)

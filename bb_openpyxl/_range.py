@@ -55,7 +55,7 @@ def _get_all_cells(formula_or_range):
     return _duplicate(cells)
 
 
-def replace(formula_or_range, src, dest):
+def _replace(formula_or_range, src, dest):
     n_formula_or_range = ''
     i = 0
     while i < len(formula_or_range):
@@ -64,7 +64,7 @@ def replace(formula_or_range, src, dest):
                 # 并没有完整匹配，比如 $AA不能把$A替换了
                 n_formula_or_range += formula_or_range[i]
                 i += 1
-            elif i > 0 and not formula_or_range[i-1] in string.punctuation:
+            elif i > 0 and not formula_or_range[i-1] in string.punctuation and not src[0] == '$':
                 # 并没有完整匹配，比如 AA1:AB2不能把A1替换了
                 n_formula_or_range += formula_or_range[i]
                 i += 1
@@ -77,7 +77,7 @@ def replace(formula_or_range, src, dest):
     return n_formula_or_range
 
 
-def get_bounds(ref):
+def _get_bounds(ref):
     """提取范围内中的边界，比如A1:B3，返回[('A2', 'E7')] 1, 2, 5, 7"""
     [start_cell, end_cell] = ref.split(":")
     start_column = column_index_from_string(re.findall(r"([A-Z]+)", start_cell)[0])

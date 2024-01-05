@@ -25,11 +25,18 @@ from ._insert import (_un_merge_cells_before_insert, _re_merge_cells_when_after_
 
 def insert_rows(worksheet, idx, amount=1):
     """
-    插入一行，同时保持原来的合并单元格，公式，行高
-    :param worksheet: worksheet
-    :param idx: 同Worksheet.insert_rows
-    :param amount:同Worksheet.insert_rows
-    :return:
+    Inserts rows into a worksheet at a specified index.
+    Auto adjust merged cells, formulas and tables.
+    Args:
+        worksheet (Worksheet): The worksheet to insert rows into.
+        idx (int): The index at which to insert the rows.
+        amount (int, optional): The number of rows to insert. Defaults to 1.
+
+    Returns:
+        None
+
+    Raises:
+        None
     """
     if not hasattr(worksheet, 'bb_patched'):
         # 未打补丁，直接调用的本方法
@@ -50,11 +57,16 @@ def insert_rows(worksheet, idx, amount=1):
 
 def insert_cols(worksheet, idx, amount=1):
     """
-    插入一列，同时保持原来的合并单元格，公式，列宽
-    :param worksheet:
-    :param idx:同Worksheet.insert_rows
-    :param amount:同Worksheet.insert_rows
-    :return:
+    Inserts a specified number of columns at a given index in a worksheet.
+    Auto adjust merged cells, formulas and tables.
+    插入或者删除行或者列的时候，自动校正受影响的有公式、合并的单元格、表格
+    Args:
+        worksheet (object): The worksheet object on which the columns are inserted.
+        idx (int): The index at which the columns are to be inserted.
+        amount (int, optional): The number of columns to be inserted. Defaults to 1.
+
+    Returns:
+        None
     """
     if not hasattr(worksheet, 'bb_patched'):
         worksheet.insert_cols_ = worksheet.insert_cols

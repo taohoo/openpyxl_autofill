@@ -10,7 +10,7 @@ import re
 from openpyxl.utils import column_index_from_string, get_column_letter
 
 from ._range import _new_col_string, _new_row_string, _get_all_cells, _get_all_rows, \
-    _get_all_columns, replace
+    _get_all_columns, _replace
 
 
 def _calculate_new_cell(cell, row_idx=None, col_idx=None, amount=1):
@@ -35,7 +35,7 @@ def _reset_cells_in_formula(formula, cells, current_cell=None, row_idx=None, col
             # 要把new_cell处理掉
             cells.remove(new_cell)
             new_formula = _reset_cells_in_formula(new_formula, cells, new_cell, row_idx=row_idx, col_idx=col_idx, amount=amount)
-        new_formula = replace(new_formula, current_cell, new_cell)
+        new_formula = _replace(new_formula, current_cell, new_cell)
     return _reset_cells_in_formula(new_formula, cells, row_idx=row_idx, col_idx=col_idx, amount=amount)
 
 
@@ -51,7 +51,7 @@ def _reset_cols_in_formula(formula, cols, current_col=None, idx=None, amount=1):
             # 要把new_cell处理掉
             cols.remove(new_col)
             new_formula = _reset_cols_in_formula(new_formula, cols, new_col, idx=idx, amount=amount)
-        new_formula = replace(new_formula, '$'+current_col, '$'+new_col)
+        new_formula = _replace(new_formula, '$' + current_col, '$' + new_col)
     return _reset_cols_in_formula(new_formula, cols, idx=idx, amount=amount)
 
 
@@ -67,7 +67,7 @@ def _reset_rows_in_formula(formula, rows, current_row=None, idx=None, amount=1):
             # 要把new_cell处理掉
             rows.remove(new_row)
             new_formula = _reset_rows_in_formula(new_formula, rows, new_row, idx=idx, amount=amount)
-        new_formula = replace(new_formula, '$'+current_row, '$'+new_row)
+        new_formula = _replace(new_formula, '$' + current_row, '$' + new_row)
     return _reset_rows_in_formula(new_formula, rows, idx=idx, amount=amount)
 
 

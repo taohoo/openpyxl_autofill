@@ -11,20 +11,23 @@ import warnings
 
 def sort(worksheet, start_row, start_column, end_row, end_column, sort_column, reverse=False):
     """
+    Sorts a worksheet by a specified column. If the column contains formulas, the Excel file must be opened with the `data_only=True` parameter.
     对worksheet进行排序，如果排序字段为公式，必须用data_only=True的方式打开excel。
-    :param worksheet: 要排序的worksheet 
-    :param start_row: 排序开始的行
-    :param start_column: 排序开始的列
-    :param end_row: 排序结束的行
-    :param end_column: 排序结束的列
-    :param sort_column: 用来做排序依据的列
-    :param reverse: 是否倒序
-    :return: 
+    Args:
+        worksheet (object): The worksheet to be sorted.
+        start_row (int): The starting row for sorting.
+        start_column (int): The starting column for sorting.
+        end_row (int): The ending row for sorting.
+        end_column (int): The ending column for sorting.
+        sort_column (int): The column to be used as the sorting criteria.
+        reverse (bool): Whether to sort in reverse order.
+    Returns:
+        None
     """
-    sort_f(worksheet, start_row, start_column, end_row, end_column, key=lambda x: x[sort_column - 1].value, reverse=reverse)
+    _sort_f(worksheet, start_row, start_column, end_row, end_column, key=lambda x: x[sort_column - 1].value, reverse=reverse)
 
 
-def sort_f(worksheet, start_row, start_column, end_row, end_column, key, reverse=False):
+def _sort_f(worksheet, start_row, start_column, end_row, end_column, key, reverse=False):
     """
     用指定的func进行排序，灵活应用可以解决公式的问题
     除了func，参数都和sort一致
@@ -45,6 +48,7 @@ def sort_f(worksheet, start_row, start_column, end_row, end_column, key, reverse
         for c in range(start_column, end_column + 1):
             s_cell = sorted_data[r - start_row][c - start_column]
             if s_cell.data_type == 'f':  # 公式，写警告
-                warnings.warn('排序的单元格中的包含公式，排序之后，可能导致公式异常')
+                warnings.warn('排序的单元格中的包含公式，排序之后，可能导致公式异常，为防止被忽略的数据错误，该公式被清除。')
+                s_cell.value = None
             worksheet.cell(row=r, column=c).value = s_cell.value
             worksheet.cell(row=r, column=c)._style = s_cell._style
