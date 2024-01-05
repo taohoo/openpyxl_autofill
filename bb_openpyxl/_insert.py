@@ -122,9 +122,8 @@ def _re_set_tables(ws, row_idx=None, col_idx=None, amount=1):
                      'insertRowShift', 'totalsRowCount', 'totalsRowShown', 'published', 'headerRowDxfId',
                      'dataDxfId', 'totalsRowDxfId', 'headerRowBorderDxfId', 'tableBorderDxfId',
                      'totalsRowBorderDxfId', 'headerRowCellStyle', 'dataCellStyle', 'totalsRowCellStyle',
-                     'connectionId', 'autoFilter', 'sortState')):
+                     'connectionId', 'autoFilter', 'sortState', 'tableStyleInfo')):
                 setattr(tab, attribute_name, copy.copy(getattr(table, attribute_name)))
-        tab.tableStyleInfo = copy.copy(table.tableStyleInfo)
         tables.append(tab)
     ws.tables.clear()
     for table in tables:
@@ -132,4 +131,7 @@ def _re_set_tables(ws, row_idx=None, col_idx=None, amount=1):
         # 如果新增了列，要增加新标题，否则会报错
         if new_ref != table.ref:
             table.ref = new_ref
+            for i in range(0, table.headerRowCount):
+                ...
+
         ws.add_table(table)

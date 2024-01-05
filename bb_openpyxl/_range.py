@@ -31,19 +31,19 @@ def _new_row_string(row, idx, amount=1):
     return str(_new_index(current, idx, amount))
 
 
-def _get_all_cells(formula_or_range, formula=False):
-    """提取公式中的单元格"""
-    cell_pattern = "[^A-Z0-9]([A-Z]+[0-9]+)"
+def _get_all_cells(formula_or_range):
+    """提取公式或者范围内中的单元格"""
+    cell_pattern = r"(?<!\w)([A-Z]+\d+)(?!\()"
     return _duplicate(re.findall(cell_pattern, formula_or_range))
 
 
-def _get_all_rows(formula_or_range):
+def _get_all_rows(formula):
     """提取公式中的行"""
     row_pattern = r"\$(\d+)"
-    return _duplicate(re.findall(row_pattern, formula_or_range))
+    return _duplicate(re.findall(row_pattern, formula))
 
 
-def _get_all_columns(formula_or_range):
+def _get_all_columns(formula):
     """提取公式中的列"""
     column_pattern = r"\$([A-Z]+)"
-    return _duplicate(re.findall(column_pattern, formula_or_range))
+    return _duplicate(re.findall(column_pattern, formula))
