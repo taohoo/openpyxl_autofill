@@ -11,6 +11,7 @@ from .._range import _get_all_cells, _get_all_rows, _get_all_columns
 
 
 def test_get():
+    assert ['H8', 'I12'] == _get_all_cells(r"H8:I12")
     assert ['H8', 'I12'] == _get_all_cells(r"=ATAN2(H8,I12)")
     assert ['I6'] == _get_all_cells(r"=RANK(I6,$I$3:$I$12,0)")
     assert ['3', '12'] == _get_all_rows(r"=RANK(I6,$I$3:$I$12,0)")
@@ -18,6 +19,8 @@ def test_get():
 
 
 def test_reset_cell():
+    assert 'H8:I14' == _reset_formula(r"H8:I12", row_idx=9, amount=2)
+    assert 'A8:I14,AA8:II14' == _reset_formula(r"A8:I12,AA8:II12", row_idx=9, amount=2)
     # 增加行，第一个单元格不动
     assert r'=ATAN2(H8,I14)' == _reset_formula(r"=ATAN2(H8,I12)", row_idx=9, amount=2)
     # 增加行，第一个单元格移到第二个单元格的位置

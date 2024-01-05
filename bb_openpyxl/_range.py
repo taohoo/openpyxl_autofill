@@ -1,4 +1,5 @@
 import re
+import string
 
 from openpyxl.utils import column_index_from_string, get_column_letter
 
@@ -33,8 +34,47 @@ def _new_row_string(row, idx, amount=1):
 
 def _get_all_cells(formula_or_range):
     """提取公式或者范围内中的单元格"""
-    cell_pattern = r"(?<!\w)([A-Z]+\d+)(?!\()"
-    return _duplicate(re.findall(cell_pattern, formula_or_range))
+    cells = []
+    cell_ = ''
+    if formula_or_range[0] == '=':  # 忽略最开始的等号
+        formula_or_range = formula_or_range[1:]
+    for c in formula_or_range:
+        # ATAN2(H8,I12)
+        if c in string.punctuation:
+            # 可能cell已经读完整了,并且读到的不是函数名或者sheet名
+            if len(cell_) >= 2 and c not in ('(', '!'):
+                if cell_[0].isalpha() and cell_[-1].isdigit():
+                    # 排除单独行或者单独列的格式，或者这种最后的0：RANK(I6,$I$3:$I$12,0)
+                    cells.append(cell_)
+            cell_ = ''
+        else:
+            cell_ += c
+    # 可能还存在最后单元格
+    if len(cell_) >= 2 and cell_[0].isalpha() and cell_[-1].isdigit():
+        cells.append(cell_)
+    return _duplicate(cells)
+
+
+def replace(formula_or_range, src, dest):
+    n_formula_or_range = ''
+    i = 0
+    while i < len(formula_or_range):
+        if formula_or_range[i:].startswith(src):
+            if len(formula_or_range[i:]) > len(src) and not formula_or_range[i+len(src)] in string.punctuation:
+                # 并没有完整匹配，比如 $AA不能把$A替换了
+                n_formula_or_range += formula_or_range[i]
+                i += 1
+            elif i > 0 and not formula_or_range[i-1] in string.punctuation:
+                # 并没有完整匹配，比如 AA1:AB2不能把A1替换了
+                n_formula_or_range += formula_or_range[i]
+                i += 1
+            else:
+                n_formula_or_range += dest
+                i += len(src)
+        else:
+            n_formula_or_range += formula_or_range[i]
+            i += 1
+    return n_formula_or_range
 
 
 def get_bounds(ref):
