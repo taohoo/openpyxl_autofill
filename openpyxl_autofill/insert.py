@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: hubo
-@project: bb-py
+@project: openpyxl_autofill
 @file: insert.py
 @time: 2023/12/22 14:13
 @desc:
@@ -38,10 +38,8 @@ def insert_rows(worksheet, idx, amount=1):
     Raises:
         None
     """
-    if not hasattr(worksheet, 'bb_patched'):
-        # 未打补丁，直接调用的本方法
-        worksheet.insert_rows_ = worksheet.insert_rows
-        worksheet.delete_rows_ = worksheet.delete_rows
+    if not hasattr(worksheet, '_autofill_enabled'):
+        raise Exception('You should call openpyxl_autofill.enable_all before!')
     unmerged_ranges = _un_merge_cells_before_insert(worksheet, row_idx=idx, amount=amount)
     heights = _get_all_rows_height(worksheet)
     if amount > 0:
@@ -68,9 +66,8 @@ def insert_cols(worksheet, idx, amount=1):
     Returns:
         None
     """
-    if not hasattr(worksheet, 'bb_patched'):
-        worksheet.insert_cols_ = worksheet.insert_cols
-        worksheet.delete_cols_ = worksheet.delete_cols
+    if not hasattr(worksheet, '_autofill_enabled'):
+        raise Exception('You should call openpyxl_autofill.enable_all before!')
     unmerged_ranges = _un_merge_cells_before_insert(worksheet, col_idx=idx, amount=amount)
     widths = _get_all_columns_width(worksheet)
     if amount > 0:  # 插入列

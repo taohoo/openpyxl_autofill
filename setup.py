@@ -5,14 +5,14 @@ with open('README.MD', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='bb_openpyxl',
+    name='openpyxl_autofill',
     version='0.2.2',
     description='针对openpyxl的功能扩展',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='HuBo',
     author_email='taohoo@163.com',
-    url='https://github.com/taohoo/bb-openpyxl',
+    url='https://github.com/taohoo/openpyxl_autofill',
     license='MIT License',
     packages=find_packages(),
     platforms=['all'],

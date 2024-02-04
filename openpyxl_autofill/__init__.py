@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: hubo
-@project: bb-py
+@project: openpyxl_autofill
 @file: __init__.py.py
 @time: 2023/12/22 14:00
 @desc:
@@ -13,9 +13,9 @@ from .delete import delete_rows, delete_cols
 from .sort import sort
 
 
-def patch_all():
-    if not hasattr(Worksheet, 'bb_patched'):
-        Worksheet.bb_patched = True
+def enable_all():
+    if not hasattr(Worksheet, '_autofill_enabled'):
+        Worksheet._autofill_enabled = True
         # rename original methods
         Worksheet.insert_rows_ = Worksheet.insert_rows
         Worksheet.insert_cols_ = Worksheet.insert_cols

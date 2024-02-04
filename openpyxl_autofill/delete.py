@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: hubo
-@project: bb-py
+@project: openpyxl_autofill
 @file: delete.py.py
 @time: 2023/12/22 16:09
 @desc:

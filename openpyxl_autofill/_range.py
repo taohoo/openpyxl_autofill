@@ -3,7 +3,7 @@ import string
 
 from openpyxl.utils import column_index_from_string, get_column_letter
 
-from bb_openpyxl._utils import _duplicate
+from openpyxl_autofill._utils import _duplicate
 
 
 def _new_range(start_column, start_row, end_column, end_row, row_idx, col_idx, amount):

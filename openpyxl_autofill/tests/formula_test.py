@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: hubo
-@project: bb-py
+@project: openpyxl_autofill
 @file: formula_test.py
 @time: 2023/12/23 14:07
 @desc:

@@ -1,12 +1,12 @@
 # 从pip安装
 ```
-pip install bb_openpyxl
+pip install openpyxl_autofill
 ```
 # 使用
 ```
 from openpyxl import load_workbook
-import bb_openpyxl
-bb_openpyxl.patch_all()
+import openpyxl_autofill
+openpyxl_autofill.enable_all()
 wb = load_workbook(...)
 ws = wb.active
 ws.insert_rows(...)
