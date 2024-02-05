@@ -21,4 +21,6 @@ Sorts the cells within the given range.
 Insert rows and insert cols. Auto adjust merged cells, formulas and tables.
 ## delete
 Delete rows and delete cols. Auto adjust merged cells, formulas and tables.
-
+# TODO
+Support formulas cross sheet,  perspective view.
+Support formulas in sort cells.
