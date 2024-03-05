@@ -1,3 +1,17 @@
+# 说明
+openpyxl并未对很多Excel中的自动化操作提供支持。   
+比如在插入和删除行列时，Excel中的公式会受影响。  
+openpyxl并没有排序之类的方法，而这些方法在Excel中时被支持的。   
+本库对这些操作提供支持。   
+# 例子
+## 删除行之前
+![img_2.png](img_2.png)
+## 直接使用openpyxl
+不会像Excel一样自动调整公式
+![img.png](img.png)
+## 使用openpyxl_autofill之后
+像Excel一样自动调整
+![img_1.png](img_1.png)
 # 从pip安装
 ```
 pip install openpyxl_autofill
@@ -12,7 +26,7 @@ ws = wb.active
 ws.insert_rows(...)
 ...
 ```
-# 针对openpyxl的各种扩展操作
+# 功能清单
 ## sort
 对给定范围的单元格进行排序
 ## insert

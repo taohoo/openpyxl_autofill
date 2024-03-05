@@ -1,5 +1,17 @@
-Many people who transition from Excel or VBA to using openpyxl often find themselves confused about the lack of automatic formula correction when inserting or deleting rows or columns in Excel.
-This library is designed to automatically correct formulas, merged cells, and table styles when using the insert_rows, insert_cols, delete_rows, and delete_cols methods in openpyxl.
+# Explanation
+openpyxl does not provide support for many automation operations in Excel.
+For example, when inserting or deleting rows and columns, formulas in Excel are affected.
+openpyxl does not have methods like sorting, which are supported in Excel.
+This library provides support for these operations.
+# Example
+## Before deleting rows
+![img_2.png](img_2.png)
+## Directly using openpyxl
+Formulas are not automatically adjusted like Excel
+![img.png](img.png)
+## After using openpyxl_autofill
+Formulas are automatically adjusted like Excel
+![img_1.png](img_1.png)
 # Installation via pip
 ```
 pip install openpyxl_autofill
@@ -14,13 +26,13 @@ ws = wb.active
 ws.insert_rows(...)
 ...
 ```
-# Extensions for openpyxl
+# Functions
 ## sort
-Sorts the cells within the given range.
+Sorts cells in a given range
 ## insert
-Insert rows and insert cols. Auto adjust merged cells, formulas and tables.
+Includes insert_rows and insert_cols, which automatically adjust formulas, merged cells, and tables when inserting rows and columns
 ## delete
-Delete rows and delete cols. Auto adjust merged cells, formulas and tables.
-# TODO
-Support formulas cross sheet,  perspective view.
-Support formulas in sort cells.
+Includes delete_rows and delete_cols, which automatically adjust formulas, merged cells, and tables when deleting rows and columns
+# Next steps
+Support formulas across sheets when inserting or deleting rows and columns
+Support adjustment of columns with formulas when sorting, by calculating formulas first before sorting
