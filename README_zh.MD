@@ -4,7 +4,7 @@ openpyxl并未对很多Excel中的自动化操作提供支持。
 openpyxl并没有排序之类的方法，而这些方法在Excel中时被支持的。   
 本库对这些操作提供支持。   
 # 例子
-## 删除行之前
+## 删除两列之前
 ![img_2.png](img_2.png)
 ## 直接使用openpyxl
 不会像Excel一样自动调整公式

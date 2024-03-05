@@ -4,7 +4,7 @@ For example, when inserting or deleting rows and columns, formulas in Excel are 
 openpyxl does not have methods like sorting, which are supported in Excel.
 This library provides support for these operations.
 # Example
-## Before deleting rows
+## Before deleting columns
 ![img_2.png](img_2.png)
 ## Directly using openpyxl
 Formulas are not automatically adjusted like Excel
