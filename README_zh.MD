@@ -6,11 +6,11 @@ openpyxl并没有排序之类的方法，而这些方法在Excel中时被支持�
 # 例子
 ## 删除两列之前
 ![img_2.png](img_2.png)
-## 直接使用openpyxl
-不会像Excel一样自动调整公式
+## 直接使用openpyxl删除两行
+不会自动调整公式，公式计算可能出错
 ![img.png](img.png)
-## 使用openpyxl_autofill之后
-像Excel一样自动调整
+## 使用openpyxl_autofill补丁后，使用openpyxl删除两行
+像Excel一样自动调整公式
 ![img_1.png](img_1.png)
 # 从pip安装
 ```

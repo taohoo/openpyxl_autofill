@@ -6,11 +6,11 @@ This library provides support for these operations.
 # Example
 ## Before deleting columns
 ![img_2.png](img_2.png)
-## Directly using openpyxl
-Formulas are not automatically adjusted like Excel
+## Directly delete two columns using openpyxl
+Formulas are not automatically adjusted, calculation may be incorrect.
 ![img.png](img.png)
-## After using openpyxl_autofill
-Formulas are automatically adjusted like Excel
+## Delete two columns using openpyxl with openpyxl_autofill patch 
+Formulas are automatically adjusted like Excel.
 ![img_1.png](img_1.png)
 # Installation via pip
 ```
